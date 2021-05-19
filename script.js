@@ -24,13 +24,11 @@ let winLines = [
   [2, 4, 6]
 ];
 
-
 addEventListener('DOMContentLoaded', function(event) {
   toggleButtonState('buttonNewGame', 0);
   toggleButtonState('buttonResetScore', 0);
   updateScore();
 });
-
 
 const updateScore = () => {
   textScoreX.innerHTML = scoreX;
