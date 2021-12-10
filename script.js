@@ -1,5 +1,3 @@
-'use strict';
-
 const textScoreX = document.getElementById("scoreX");
 const textScoreO = document.getElementById("scoreO");
 const msg = document.getElementById("text");
@@ -24,7 +22,7 @@ let winLines = [
   [2, 4, 6]
 ];
 
-addEventListener('DOMContentLoaded', function(event) {
+addEventListener('DOMContentLoaded', () => {
   toggleButtonState('buttonNewGame', 0);
   toggleButtonState('buttonResetScore', 0);
   updateScore();
@@ -33,7 +31,7 @@ addEventListener('DOMContentLoaded', function(event) {
 const updateScore = () => {
   textScoreX.innerHTML = scoreX;
   textScoreO.innerHTML = scoreO;
-  if (scoreX != 0 || scoreO != 0 && buttonResetStats.disabled == true) toggleButtonState('buttonResetScore', 1);
+  if (scoreX != 0 || scoreO != 0 && buttonResetScore.disabled == true) toggleButtonState('buttonResetScore', 1);
 }
 
 const disableCells = () => {
@@ -42,21 +40,21 @@ const disableCells = () => {
   }
 }
 
-function toggleButtonState(name, state) { // NAMES: buttonNewGame, buttonResetScore; STATES: 0 - disable, 1 - enable
+function toggleButtonState(name, state) { // NAMES: buttonNewGame, buttonResetScore; STATES: 0 - disable, other - disable
   switch (name) {
     case "buttonNewGame": {
-      if (state == 0) return buttonNewGame.disabled = true;
-      if (state == 1) return buttonNewGame.disabled = false;
+      state == 0 ? buttonNewGame.disabled = true : buttonNewGame.disabled = false;
+      break;
     }
     case "buttonResetScore": {
-      if (state == 0) return buttonResetScore.disabled = true;
-      if (state == 1) return buttonResetScore.disabled = false;
+      state == 0 ? buttonResetScore.disabled = true : buttonResetScore.disabled = false;
+      break;
     }
   }
 }
 
 for (let i = 0; i < cells.length; i++) {
-  cells[i].addEventListener("click", function (event) {
+  cells[i].addEventListener("click", () => {
     if (cells[i].classList.contains("disabled")) return true;
     cells[i].classList.add("disabled");
     if (steps % 2 == 0) {
@@ -115,9 +113,10 @@ function newGame() {
 function resetScore() {
   if (scoreX == 0 && scoreO == 0) return true;
   let confirmation = confirm('Are you sure you want to reset stats?');
-  if (confirmation == false) return true;
-  scoreX = 0;
-  scoreO = 0;
-  toggleButtonState('buttonResetScore', 0);
-  updateScore();
+  if (confirmation) {
+    scoreX = 0;
+    scoreO = 0;
+    toggleButtonState('buttonResetScore', 0);
+    updateScore();
+  }
 }
